@@ -40,7 +40,7 @@ if (is_null($givenPlayer)) {
 }
 echo "The UUID of the given player is: " . $givenPlayer->getUniqueID();
 echo "<br>The name of the given player is: " . $givenPlayer->getName();
-echo "<br>The id of the given player is: " . $givenPlayer->getID();
+echo "<br>The id of the given player is: " . $givenPlayer->getID(); 
 $friends = $givenPlayer->getFriends();
 echo "</br>Friends:";
 if (is_array($friends)) {
