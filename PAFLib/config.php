@@ -9,3 +9,4 @@ $host = "localhost";
 $user = "root";
 $password = "password";
 $db = "friends";
+$tablePrefix = "fr_";

@@ -24,7 +24,7 @@ use PartyAndFriends\Lib\PAFPlayer\PAFPlayerManager;
 
 require_once('../config.php');
 $pod = new PDO('mysql:host=' . $host . ';dbname=' . $db, $user, $password);
-$manager = new PAFPlayerManager($pod);
+$manager = new PAFPlayerManager($pod, $tablePrefix);
 if (!empty($_GET['name'])) {
     $givenPlayer = $manager->getPlayerByName($_GET['name']);
 } elseif (!empty($_GET['uuid'])) {
@@ -40,7 +40,7 @@ if (is_null($givenPlayer)) {
 }
 echo "The UUID of the given player is: " . $givenPlayer->getUniqueID();
 echo "<br>The name of the given player is: " . $givenPlayer->getName();
-echo "<br>The id of the given player is: " . $givenPlayer->getID(); 
+echo "<br>The id of the given player is: " . $givenPlayer->getID();
 $friends = $givenPlayer->getFriends();
 echo "</br>Friends:";
 if (is_array($friends)) {

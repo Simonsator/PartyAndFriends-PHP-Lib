@@ -40,7 +40,7 @@ class PAFPlayer
 
     function getFriends()
     {
-        $stmt = PAFPlayerManager::getInstance()->getConnection()->prepare("SELECT player_id, player_uuid, player_name FROM fr_players WHERE player_id IN(SELECT friend1_id FROM fr_friend_assignment WHERE friend2_id='" . $this->id . "') OR player_id IN(SELECT friend2_id FROM fr_friend_assignment WHERE friend1_id='" . $this->id . "') LIMIT 1");
+        $stmt = PAFPlayerManager::getInstance()->getConnection()->prepare("SELECT player_id, player_uuid, player_name FROM " . PAFPlayerManager::getInstance()->getTablePrefix() . "_players WHERE player_id IN(SELECT friend1_id FROM fr_friend_assignment WHERE friend2_id='" . $this->id . "') OR player_id IN(SELECT friend2_id FROM fr_friend_assignment WHERE friend1_id='" . $this->id . "') LIMIT 1");
         $stmt->execute();
         $i = 0;
         foreach ($stmt as $row) {

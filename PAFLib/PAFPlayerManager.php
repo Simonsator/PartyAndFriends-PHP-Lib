@@ -18,10 +18,11 @@ class PAFPlayerManager
     private $tablePrefix;
     private static $instance;
 
-    function __construct($pPod)
+    function __construct($pPod, $tablePrefix)
     {
         self::$instance = $this;
         $this->connection = $pPod;
+        $this->tablePrefix = $tablePrefix;
     }
 
     public function getPlayerByUUID($pUUID)
@@ -60,7 +61,7 @@ class PAFPlayerManager
 
     public function getPlayerByName($pPlayerName)
     {
-        $stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM fr_players WHERE player_name=:name LIMIT 1");
+        $stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM " . PAFPlayerManager::getInstance()->getTablePrefix() . "players WHERE player_name=:name LIMIT 1");
         $stmt->bindParam(':name', $pPlayerName);
         $stmt->execute();
         if ($stmt->rowCount() == 0) {
@@ -68,6 +69,14 @@ class PAFPlayerManager
         }
         $row = $stmt->fetch();
         return new PAFPlayer($row['player_uuid'], $row['player_name'], $row['player_id']);
+    }
+
+    /**
+     * @return String
+     */
+    public function getTablePrefix()
+    {
+        return $this->tablePrefix;
     }
 
 }
