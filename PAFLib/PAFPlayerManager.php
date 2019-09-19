@@ -70,9 +70,4 @@ class PAFPlayerManager {
 	public static function getInstance() {
 		return self::$instance;
 	}
-
-	public function getSetting() {
-
-	}
-
 }
