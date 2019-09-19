@@ -12,21 +12,18 @@ require_once('PAFPlayer.php');
  * Class PAFPlayerManager This class is to get
  * @package PartyAndFriends\Lib\PAFPlayer
  */
-class PAFPlayerManager
-{
+class PAFPlayerManager {
 	private static $instance;
 	private $connection;
 	private $tablePrefix;
 
-	function __construct($pPod, $tablePrefix)
-	{
+	function __construct($pPod, $tablePrefix) {
 		self::$instance = $this;
 		$this->connection = $pPod;
 		$this->tablePrefix = $tablePrefix;
 	}
 
-	public function getPlayerByUUID($pUUID)
-	{
+	public function getPlayerByUUID($pUUID) {
 		$stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM fr_players WHERE player_uuid=:uuid LIMIT 1");
 		$stmt->bindParam(':uuid', $pUUID);
 		$stmt->execute();
@@ -37,8 +34,7 @@ class PAFPlayerManager
 		return new PAFPlayer($row['player_uuid'], $row['player_name'], $row['player_id']);
 	}
 
-	public function getPlayerByID($pID)
-	{
+	public function getPlayerByID($pID) {
 		$stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM fr_players WHERE player_id=:id LIMIT 1");
 		$stmt->bindParam(':id', $pID);
 		$stmt->execute();
@@ -49,13 +45,11 @@ class PAFPlayerManager
 		return new PAFPlayer($row['player_uuid'], $row['player_name'], $row['player_id']);
 	}
 
-	public function getConnection()
-	{
+	public function getConnection() {
 		return $this->connection;
 	}
 
-	public function getPlayerByName($pPlayerName)
-	{
+	public function getPlayerByName($pPlayerName) {
 		$stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM " . PAFPlayerManager::getInstance()->getTablePrefix() . "players WHERE player_name=:name LIMIT 1");
 		$stmt->bindParam(':name', $pPlayerName);
 		$stmt->execute();
@@ -69,14 +63,16 @@ class PAFPlayerManager
 	/**
 	 * @return String
 	 */
-	public function getTablePrefix()
-	{
+	public function getTablePrefix() {
 		return $this->tablePrefix;
 	}
 
-	public static function getInstance()
-	{
+	public static function getInstance() {
 		return self::$instance;
+	}
+
+	public function getSetting() {
+
 	}
 
 }
