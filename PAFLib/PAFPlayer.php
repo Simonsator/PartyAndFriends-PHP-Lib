@@ -44,7 +44,7 @@ class PAFPlayer
         $stmt->execute();
         $i = 0;
         foreach ($stmt as $row) {
-            $friends[i] = new PAFPlayer($row['player_uuid'], $row['player_name'], $row['player_id']);
+            $friends[$i] = new PAFPlayer($row['player_uuid'], $row['player_name'], $row['player_id']);
             $i++;
         }
         return $friends;
