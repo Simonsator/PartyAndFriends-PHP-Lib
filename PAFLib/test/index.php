@@ -52,7 +52,16 @@ if (is_array($friends)) {
 	echo "The player does not have added friends yet.";
 }
 $friendRequests = $givenPlayer->getFriendRequests();
-echo "</br>Friend requests: ";
+echo "</br>Received friend requests: ";
+if (is_array($friendRequests)) {
+	foreach ($friendRequests as $friendRequests) {
+		echo "<br> - " . $friendRequests->getName();
+	}
+} else {
+	echo "The player did not receive any friends requests.";
+}
+$friendRequests = $givenPlayer->getSentFriendRequests();
+echo "</br>Sent friend requests: ";
 if (is_array($friendRequests)) {
 	foreach ($friendRequests as $friendRequests) {
 		echo "<br> - " . $friendRequests->getName();

@@ -54,4 +54,16 @@ class PAFPlayer {
 		if(isset($friends))
 			return $friends;
 	}
+	
+	public function getSentFriendRequests() {
+		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare("SELECT player_id, player_uuid, player_name FROM " . PAFPlayerManager::getInstance()->getTablePrefix() . "players WHERE player_id IN(SELECT receiver_id FROM " . PAFPlayerManager::getInstance()->getTablePrefix() . "friend_request_assignment WHERE requester_id='" . $this->id . "')");
+		$stmt->execute();
+		$i = 0;
+		foreach ($stmt as $row) {
+			$friends[$i] = new PAFPlayer($row['player_uuid'], $row['player_name'], $row['player_id']);
+			$i++;
+		}
+		if(isset($friends))
+			return $friends;
+	}
 }
