@@ -43,13 +43,22 @@ echo "The UUID of the given player is: " . $givenPlayer->getUniqueID();
 echo "<br>The name of the given player is: " . $givenPlayer->getName();
 echo "<br>The id of the given player is: " . $givenPlayer->getID();
 $friends = $givenPlayer->getFriends();
-echo "</br>Friends:";
+echo "</br>Friends: ";
 if (is_array($friends)) {
 	foreach ($friends as $friend) {
 		echo "<br> - " . $friend->getName();
 	}
 } else {
 	echo "The player does not have added friends yet.";
+}
+$friendRequests = $givenPlayer->getFriendRequests();
+echo "</br>Friend requests: ";
+if (is_array($friendRequests)) {
+	foreach ($friendRequests as $friendRequests) {
+		echo "<br> - " . $friendRequests->getName();
+	}
+} else {
+	echo "The player did not receive any friends requests.";
 }
 ?>
 </body>
