@@ -9,15 +9,33 @@
  * Date: 10.02.17
  * Time: 14:54
  */
-if (empty($_GET['name']) && empty($_GET['uuid']) && empty($_GET['id'])) {
-	echo "<form method='get'>Find player by player name:<br><input type='text' max='16' placeholder='Player name' name='name'>";
-	echo "<br><input type='submit' name='submit'></form>";
-	echo "<form method='get'>Find player by UUID:<br><input type='text' minlength='36' maxlength='36' name='uuid' placeholder='Player UUID'><br>";
-	echo "<input type='submit' name='submit'></form>";
-	echo "<form method='get'>Find player by ID:<br><input type='number' name='id' placeholder='Player id'><br>";
-	echo "<input type='submit' name='submit'></form>";
-	echo "</body></html>";
-	return;
+if (empty($_GET['name']) && empty($_GET['uuid']) && empty($_GET['id'])) { ?>
+<form method='get'>
+    <label>
+        Find player by player name:
+        <input type='text' max='16' placeholder='Player name' name='name'>
+    </label>
+    <input type='submit' name='submit'>
+</form>
+<form method='get'>
+    <label>
+        Find player by UUID:
+        <input type='text' minlength='36' maxlength='36' name='uuid'
+               placeholder='Player UUID'>
+    </label>
+    <input type='submit' name='submit'>
+</form>
+<form method='get'>
+    <label>
+        Find player by ID:
+        <input type='number' name='id' placeholder='Player id'>
+    </label>
+    <input type='submit' name='submit'>
+</form>
+</body>
+</html>
+<?php
+return;
 }
 require_once('../PAFPlayerManager.php');
 
@@ -35,6 +53,13 @@ if (!empty($_GET['name'])) {
 } else {
 	$givenPlayer = NULL;
 }
+?>
+<html lang="en">
+<head>
+
+    <title>Example PAFLib</title></head>
+<body>
+<?php
 if (is_null($givenPlayer)) {
 	echo "The given player does not exist</body></html>";
 	return;
@@ -54,8 +79,8 @@ if (is_array($friends)) {
 $friendRequests = $givenPlayer->getFriendRequests();
 echo "</br>Received friend requests: ";
 if (is_array($friendRequests)) {
-	foreach ($friendRequests as $friendRequests) {
-		echo "<br> - " . $friendRequests->getName();
+	foreach ($friendRequests as $friendRequest) {
+		echo "<br> - " . $friendRequest->getName();
 	}
 } else {
 	echo "The player did not receive any friends requests.";
@@ -63,8 +88,8 @@ if (is_array($friendRequests)) {
 $friendRequests = $givenPlayer->getSentFriendRequests();
 echo "</br>Sent friend requests: ";
 if (is_array($friendRequests)) {
-	foreach ($friendRequests as $friendRequests) {
-		echo "<br> - " . $friendRequests->getName();
+	foreach ($friendRequests as $friendRequest) {
+		echo "<br> - " . $friendRequest->getName();
 	}
 } else {
 	echo "The player did not receive any friends requests.";
