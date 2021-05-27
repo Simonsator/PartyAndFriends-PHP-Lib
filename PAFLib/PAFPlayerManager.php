@@ -6,6 +6,9 @@
  */
 
 namespace PartyAndFriends\Lib\PAFPlayer;
+
+use PDO;
+
 require_once('PAFPlayer.php');
 
 /**
@@ -13,18 +16,18 @@ require_once('PAFPlayer.php');
  * @package PartyAndFriends\Lib\PAFPlayer
  */
 class PAFPlayerManager {
-	private static $instance;
-	private $connection;
-	private $tablePrefix;
+	private static PAFPlayerManager $instance;
+	private PDO $connection;
+	private string $tablePrefix;
 
-	function __construct($pPod, $tablePrefix) {
+	function __construct(PDO $pPod, string $tablePrefix) {
 		self::$instance = $this;
 		$this->connection = $pPod;
 		$this->tablePrefix = $tablePrefix;
 	}
 
-	public function getPlayerByUUID($pUUID) {
-		$stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM fr_players WHERE player_uuid=:uuid LIMIT 1");
+	public function getPlayerByUUID(string $pUUID): ?PAFPlayer {
+		$stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM " . $this->getTablePrefix() . "players WHERE player_uuid=:uuid LIMIT 1");
 		$stmt->bindParam(':uuid', $pUUID);
 		$stmt->execute();
 		if ($stmt->rowCount() == 0) {
@@ -34,8 +37,8 @@ class PAFPlayerManager {
 		return new PAFPlayer($row['player_uuid'], $row['player_name'], $row['player_id']);
 	}
 
-	public function getPlayerByID($pID) {
-		$stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM fr_players WHERE player_id=:id LIMIT 1");
+	public function getPlayerByID($pID): ?PAFPlayer {
+		$stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM " . $this->getTablePrefix() . "players WHERE player_id=:id LIMIT 1");
 		$stmt->bindParam(':id', $pID);
 		$stmt->execute();
 		if ($stmt->rowCount() == 0) {
@@ -45,12 +48,12 @@ class PAFPlayerManager {
 		return new PAFPlayer($row['player_uuid'], $row['player_name'], $row['player_id']);
 	}
 
-	public function getConnection() {
+	public function getConnection(): PDO {
 		return $this->connection;
 	}
 
-	public function getPlayerByName($pPlayerName) {
-		$stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM " . PAFPlayerManager::getInstance()->getTablePrefix() . "players WHERE player_name=:name LIMIT 1");
+	public function getPlayerByName($pPlayerName): ?PAFPlayer {
+		$stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM " . $this->getTablePrefix() . "players WHERE player_name=:name LIMIT 1");
 		$stmt->bindParam(':name', $pPlayerName);
 		$stmt->execute();
 		if ($stmt->rowCount() == 0) {
@@ -63,11 +66,11 @@ class PAFPlayerManager {
 	/**
 	 * @return String
 	 */
-	public function getTablePrefix() {
+	public function getTablePrefix(): string {
 		return $this->tablePrefix;
 	}
 
-	public static function getInstance() {
+	public static function getInstance(): PAFPlayerManager {
 		return self::$instance;
 	}
 }
