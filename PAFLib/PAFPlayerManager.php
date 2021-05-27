@@ -12,7 +12,7 @@ use PDO;
 require_once('PAFPlayer.php');
 
 /**
- * Class PAFPlayerManager This class is to get
+ * Class PAFPlayerManager This class is used to get
  * @package PartyAndFriends\Lib\PAFPlayer
  */
 class PAFPlayerManager {
