@@ -27,10 +27,6 @@ class PAFPlayer {
 		return $this->uniqueID;
 	}
 
-	public function getID(): int {
-		return $this->id;
-	}
-
 	public function getFriends(): array {
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare("SELECT player_id, player_uuid, player_name FROM " . PAFPlayerManager::getInstance()->getTablePrefix() . "players WHERE player_id IN(SELECT friend1_id FROM " . PAFPlayerManager::getInstance()->getTablePrefix() . "friend_assignment WHERE friend2_id='" . $this->id . "') OR player_id IN(SELECT friend2_id FROM fr_friend_assignment WHERE friend1_id='" . $this->id . "')");
 		$stmt->execute();
@@ -81,6 +77,10 @@ class PAFPlayer {
 	public function addFriend(PAFPlayer $player) {
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare("INSERT INTO " . PAFPlayerManager::getInstance()->getTablePrefix() . "friend_assignment VALUES ('" . $this->id . "', '" . $player->getID() . "')");
 		$stmt->execute();
+	}
+
+	public function getID(): int {
+		return $this->id;
 	}
 
 	public function sendFriendRequest(PAFPlayer $player) {

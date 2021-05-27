@@ -11,15 +11,15 @@ if (!isset($pafPhpLibGlobal))
 function listPlayers(array $players, string $emptyMessage) {
 	if (is_array($players) && sizeof($players) > 0) {
 		?>
-        <ul>
+		<ul>
 			<?php
 			foreach ($players as $player) {
 				?>
-                <li><?php echo $player->getName(); ?></li>
+				<li><?php echo $player->getName(); ?></li>
 				<?php
 			}
 			?>
-        </ul>
+		</ul>
 		<?php
 	} else {
 		echo $emptyMessage;
@@ -30,8 +30,8 @@ function listPlayers(array $players, string $emptyMessage) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>PHP Library for Party and Friends</title>
+	<meta charset="UTF-8">
+	<title>PHP Library for Party and Friends</title>
 </head>
 <body>
 <p>The UUID of the given player is: <?php echo $givenPlayer->getUniqueID(); ?></p>
