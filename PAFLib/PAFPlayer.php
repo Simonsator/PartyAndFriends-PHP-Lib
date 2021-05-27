@@ -69,4 +69,23 @@ class PAFPlayer {
 			return $friends;
 		return [];
 	}
+
+	public function getSettingsWorth(int $pSettingsID): int {
+		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare("SELECT settings_worth FROM " . PAFPlayerManager::getInstance()->getTablePrefix() . "settings WHERE player_id = '" . $this->id . "' AND settings_id = '" . $pSettingsID . "' LIMIT 1");
+		$stmt->execute();
+		if (isset($stmt[0]))
+			return $stmt[0]['settings_worth'];
+		return 0;
+	}
+
+	public function addFriend(PAFPlayer $player) {
+		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare("INSERT INTO " . PAFPlayerManager::getInstance()->getTablePrefix() . "friend_assignment VALUES ('" . $this->id . "', '" . $player->getID() . "')");
+		$stmt->execute();
+	}
+
+	public function sendFriendRequest(PAFPlayer $player) {
+		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare("INSERT INTO " . PAFPlayerManager::getInstance()->getTablePrefix() . "friend_assignment VALUES ('" . $this->id . "', '" . $player->getID() . "')");
+		$stmt->execute();
+	}
+
 }
