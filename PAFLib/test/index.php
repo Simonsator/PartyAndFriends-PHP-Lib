@@ -28,7 +28,9 @@ if (!empty($_GET['name'])) {
 	$givenPlayer = NULL;
 }
 if (is_null($givenPlayer)) {
+	// The player does not exist. Output the "player does not exist" message using the file playerdoesnotexist.php
 	require_once "playerdoesnotexist.php";
 	return;
 }
+// The player does exist. Use the file "playerdatashow.php" to output the data of the player
 require_once "playerdatashow.php";
