@@ -7,6 +7,6 @@
 
 $host = "localhost";
 $user = "root";
-$password = "password";
+$password = "Password";
 $db = "friends";
 $tablePrefix = "fr_";
