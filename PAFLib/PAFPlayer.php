@@ -82,7 +82,7 @@ class PAFPlayer {
 
 	public function getSetting($setting) {
 		//try find setting in map
-		if ($this->settingMap[$setting]) {
+		if (in_array($setting, $this->settingMap)) {
 			$settingId = $this->settingMap[$setting];
 		} else {
 			return;
@@ -106,7 +106,7 @@ class PAFPlayer {
 	}
 
 	public function setSetting($setting, $worth) {
-		if ($this->settingMap[$setting]) {
+		if (in_array($setting, $this->settingMap)) {
 			$settingId = $this->settingMap[$setting];
 		} else {
 			return false;
