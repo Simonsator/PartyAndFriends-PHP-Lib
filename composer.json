@@ -1,0 +1,24 @@
+{
+  "name": "simonsator/party-and-friends-php-lib",
+  "description": "PHP library for the PAF Friend Data",
+  "type": "library",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Simonsator",
+      "email": "support@simonsator.de"
+    }
+  ],
+  "require": {
+    "php": "^7.4|^8.0"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  }
+}
