@@ -26,14 +26,8 @@ Add the following lines to your composer file:
 
 ```json
 {
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/Simonsator/PartyAndFriends-PHP-Lib"
-    }
-  ],
   "require": {
-    "simonsator/party-and-friends-php-lib": "@dev"
+    "simonsator/party-and-friends-php-lib": "dev-master"
   }
 }
 ```
