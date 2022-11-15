@@ -19,7 +19,7 @@ class PAFPlayerManager
 	private PDO $connection;
 	private string $tablePrefix;
 
-	function __construct(PDO $pPod, string $tablePrefix)
+	public function __construct(PDO $pPod, string $tablePrefix)
 	{
 		self::$instance = $this;
 		$this->connection = $pPod;
@@ -33,7 +33,10 @@ class PAFPlayerManager
 
 	public function getPlayerByUUID(string $pUUID): ?PAFPlayer
 	{
-		$stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM " . $this->getTablePrefix() . "players WHERE player_uuid=:uuid LIMIT 1");
+		$stmt = $this->connection->prepare(
+			"SELECT player_id, player_uuid, player_name 
+                   FROM {$this->getTablePrefix()}players 
+                   WHERE player_uuid=:uuid LIMIT 1");
 		$stmt->bindParam(':uuid', $pUUID);
 		$stmt->execute();
 		if ($stmt->rowCount() == 0) {
@@ -53,7 +56,10 @@ class PAFPlayerManager
 
 	public function getPlayerByID($pID): ?PAFPlayer
 	{
-		$stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM " . $this->getTablePrefix() . "players WHERE player_id=:id LIMIT 1");
+		$stmt = $this->connection->prepare(
+			"SELECT player_id, player_uuid, player_name 
+                   FROM {$this->getTablePrefix()}players 
+                   WHERE player_id=:id LIMIT 1");
 		$stmt->bindParam(':id', $pID);
 		$stmt->execute();
 		if ($stmt->rowCount() == 0) {
@@ -70,7 +76,10 @@ class PAFPlayerManager
 
 	public function getPlayerByName($pPlayerName): ?PAFPlayer
 	{
-		$stmt = $this->connection->prepare("SELECT player_id, player_uuid, player_name FROM " . $this->getTablePrefix() . "players WHERE player_name=:name LIMIT 1");
+		$stmt = $this->connection->prepare(
+			"SELECT player_id, player_uuid, player_name 
+                   FROM {$this->getTablePrefix()}players 
+                   WHERE player_name=:name LIMIT 1");
 		$stmt->bindParam(':name', $pPlayerName);
 		$stmt->execute();
 		if ($stmt->rowCount() == 0) {

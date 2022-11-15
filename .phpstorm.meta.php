@@ -5,7 +5,7 @@ namespace PHPSTORM_META {
 	// injections will have the following replacement rules.
 		sql_injection_subst(),
 		map([
-			'{' => "fr_", // all `{` in injected SQL strings will be replaced with a prefix
-			'}' => '',        // all `}` will be replaced with an empty string
+			'{PAFPlayerManager::getInstance()->getTablePrefix()}' => "fr_",
+			'{$this->getTablePrefix()}' => 'fr_',
 		]));
 }
