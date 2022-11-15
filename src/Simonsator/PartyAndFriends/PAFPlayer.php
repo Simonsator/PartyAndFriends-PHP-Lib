@@ -8,6 +8,13 @@ class PAFPlayer
 	private string $name;
 	private int $id;
 
+	/**
+	 * @param string $pUUID
+	 * @param string $pName
+	 * @param int $pID
+	 *
+	 * This constructor should only be called from within the library. It should never be created by an external class.
+	 */
 	public function __construct(string $pUUID, string $pName, int $pID)
 	{
 		$this->uniqueID = $pUUID;
@@ -15,16 +22,25 @@ class PAFPlayer
 		$this->id = $pID;
 	}
 
+	/**
+	 * @return string The name of the player (not the display name)
+	 */
 	public function getName(): string
 	{
 		return $this->name;
 	}
 
+	/**
+	 * @return string The unique id of the player
+	 */
 	public function getUniqueID(): string
 	{
 		return $this->uniqueID;
 	}
 
+	/**
+	 * @return PAFPlayer[] Returns an array with all friends of the player
+	 */
 	public function getFriends(): array
 	{
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
@@ -50,6 +66,9 @@ class PAFPlayer
 		return [];
 	}
 
+	/**
+	 * @return PAFPlayer[] Returns an array with containing all players that have sent a friend request to the player, which have not yet been denied or accepted
+	 */
 	public function getFriendRequests(): array
 	{
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
@@ -71,6 +90,9 @@ class PAFPlayer
 		return [];
 	}
 
+	/**
+	 * @return PAFPlayer[] Returns an array with all open friend requests this player sent to other players
+	 */
 	public function getSentFriendRequests(): array
 	{
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
@@ -92,6 +114,17 @@ class PAFPlayer
 		return [];
 	}
 
+	/**
+	 * @param int $pSettingsID The id of the setting. Extensions might add more settings, but by default, the plugin has the following settings:
+	 *                         0 = Friend Request Setting
+	 *                         1 = Party Invite Setting
+	 *                         2 = PM Setting
+	 *                         3 = Offline Setting
+	 *                         4 = Jump Setting
+	 *                         6 = Hide Setting
+	 *
+	 * @return int Returns the value of the setting
+	 */
 	public function getSettingsWorth(int $pSettingsID): int
 	{
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
@@ -104,6 +137,10 @@ class PAFPlayer
 		return 0;
 	}
 
+	/**
+	 * @param PAFPlayer $player The player which should be the new friend of this player
+	 * @return void
+	 */
 	public function addFriend(PAFPlayer $player)
 	{
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
@@ -112,12 +149,19 @@ class PAFPlayer
 		$stmt->execute();
 	}
 
+	/**
+	 * @return int Returns the id of the player as used in the party and friends database
+	 */
 	public function getID(): int
 	{
 		return $this->id;
 	}
 
-	public function sendFriendRequest(PAFPlayer $player)
+	/**
+	 * @param PAFPlayer $player The player which should receive a friend request from this player
+	 * @return void
+	 */
+	public function sendFriendRequest(PAFPlayer $player): void
 	{
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
 			"INSERT INTO {PAFPlayerManager::getInstance()->getTablePrefix()}friend_assignment 

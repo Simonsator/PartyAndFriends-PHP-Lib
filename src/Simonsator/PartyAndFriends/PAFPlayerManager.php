@@ -1,9 +1,4 @@
 <?php
-/**
- * User: Simonsator
- * Date: 10.02.17
- * Time: 14:28
- */
 
 namespace Simonsator\PartyAndFriends;
 
@@ -19,6 +14,10 @@ class PAFPlayerManager
 	private PDO $connection;
 	private string $tablePrefix;
 
+	/**
+	 * @param PDO $pPod The connection to the MySQL database
+	 * @param string $tablePrefix The prefix of the tables as set in the Party and Friends config
+	 */
 	public function __construct(PDO $pPod, string $tablePrefix)
 	{
 		self::$instance = $this;
@@ -26,11 +25,18 @@ class PAFPlayerManager
 		$this->tablePrefix = $tablePrefix;
 	}
 
+	/**
+	 * @return PAFPlayerManager Returns the instance of the PAFPlayerManager. Make sure that it was initialized using the constructor before using this method
+	 */
 	public static function getInstance(): PAFPlayerManager
 	{
 		return self::$instance;
 	}
 
+	/**
+	 * @param string $pUUID The uuid of the player
+	 * @return PAFPlayer|null Returns the player if they ever joined the server or null if they did never join this server
+	 */
 	public function getPlayerByUUID(string $pUUID): ?PAFPlayer
 	{
 		$stmt = $this->connection->prepare(
@@ -47,14 +53,18 @@ class PAFPlayerManager
 	}
 
 	/**
-	 * @return String
+	 * @return String Returns the prefix of the tables as set in the Party and Friends config
 	 */
 	public function getTablePrefix(): string
 	{
 		return $this->tablePrefix;
 	}
 
-	public function getPlayerByID($pID): ?PAFPlayer
+	/**
+	 * @param int $pID The id of the player as used in the party and friends database
+	 * @return PAFPlayer|null Returns the corresponding player if the id belongs to a player or null if the id does not belong to a player
+	 */
+	public function getPlayerByID(int $pID): ?PAFPlayer
 	{
 		$stmt = $this->connection->prepare(
 			"SELECT player_id, player_uuid, player_name 
@@ -74,7 +84,11 @@ class PAFPlayerManager
 		return $this->connection;
 	}
 
-	public function getPlayerByName($pPlayerName): ?PAFPlayer
+	/**
+	 * @param string $pPlayerName The name of the player
+	 * @return PAFPlayer|null Returns the player if they ever joined the server or null if they did never join this server
+	 */
+	public function getPlayerByName(string $pPlayerName): ?PAFPlayer
 	{
 		$stmt = $this->connection->prepare(
 			"SELECT player_id, player_uuid, player_name 
