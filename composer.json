@@ -17,8 +17,8 @@
     "phpunit/phpunit": "^9.5"
   },
   "autoload": {
-    "psr-4": {
-      "Simonsator\\PartyAndFriends\\": "src/"
-    }
+    "classmap": [
+      "src/"
+    ]
   }
 }
