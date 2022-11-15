@@ -46,3 +46,7 @@ Temporary Items
 .metadata/*
 .recommenders/*
 .idea/*
+
+# Composer
+vendor/
+composer.lock
