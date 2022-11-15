@@ -5,7 +5,6 @@ namespace PHPSTORM_META {
 	// injections will have the following replacement rules.
 		sql_injection_subst(),
 		map([
-			'{PAFPlayerManager::getInstance()->getTablePrefix()}' => "fr_",
 			'{$this->getTablePrefix()}' => 'fr_',
 		]));
 }

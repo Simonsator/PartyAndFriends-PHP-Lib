@@ -45,14 +45,14 @@ class PAFPlayer
 	{
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
 			"SELECT player_id, player_uuid, player_name 
-                   FROM {PAFPlayerManager::getInstance()->getTablePrefix()}players 
+                   FROM {$this->getTablePrefix()}players 
                    WHERE player_id IN(
                        SELECT friend1_id 
-                       FROM {PAFPlayerManager::getInstance()->getTablePrefix()}friend_assignment 
+                       FROM {$this->getTablePrefix()}friend_assignment 
                        WHERE friend2_id='{$this->id}'
                    ) OR player_id IN(
                        SELECT friend2_id 
-                       FROM {PAFPlayerManager::getInstance()->getTablePrefix()}friend_assignment 
+                       FROM {$this->getTablePrefix()}friend_assignment 
                        WHERE friend1_id='{$this->id}'
                    )");
 		$stmt->execute();
@@ -73,10 +73,10 @@ class PAFPlayer
 	{
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
 			"SELECT player_id, player_uuid, player_name 
-                   FROM {PAFPlayerManager::getInstance()->getTablePrefix()}players 
+                   FROM {$this->getTablePrefix()}players 
                    WHERE player_id IN(
                        SELECT requester_id 
-                       FROM {PAFPlayerManager::getInstance()->getTablePrefix()}friend_request_assignment 
+                       FROM {$this->getTablePrefix()}friend_request_assignment 
                        WHERE receiver_id='{$this->id}'
                    )");
 		$stmt->execute();
@@ -97,10 +97,10 @@ class PAFPlayer
 	{
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
 			"SELECT player_id, player_uuid, player_name 
-                   FROM {PAFPlayerManager::getInstance()->getTablePrefix()}players 
+                   FROM {$this->getTablePrefix()}players 
                    WHERE player_id IN(
                        SELECT receiver_id 
-                       FROM {PAFPlayerManager::getInstance()->getTablePrefix()}friend_request_assignment 
+                       FROM {$this->getTablePrefix()}friend_request_assignment 
                        WHERE requester_id='{$this->id}'
                    )");
 		$stmt->execute();
@@ -129,7 +129,7 @@ class PAFPlayer
 	{
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
 			"SELECT settings_worth 
-                   FROM {PAFPlayerManager::getInstance()->getTablePrefix()}settings 
+                   FROM {${$this->getTablePrefix()}}settings 
                    WHERE player_id = '{$this->id}' AND settings_id = '" . $pSettingsID . "' LIMIT 1");
 		$stmt->execute();
 		if (isset($stmt[0]))
@@ -144,7 +144,7 @@ class PAFPlayer
 	public function addFriend(PAFPlayer $player)
 	{
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
-			"INSERT INTO {PAFPlayerManager::getInstance()->getTablePrefix()}friend_assignment 
+			"INSERT INTO {$this->getTablePrefix()}friend_assignment 
                    VALUES ('{$this->id}', '{$player->getID()}')");
 		$stmt->execute();
 	}
@@ -164,9 +164,13 @@ class PAFPlayer
 	public function sendFriendRequest(PAFPlayer $player): void
 	{
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
-			"INSERT INTO {PAFPlayerManager::getInstance()->getTablePrefix()}friend_assignment 
+			"INSERT INTO {$this->getTablePrefix()}friend_assignment 
                    VALUES ('{$this->id}', '{$player->getID()}')");
 		$stmt->execute();
 	}
 
+	private function getTablePrefix(): string
+	{
+		return PAFPlayerManager::getInstance()->getTablePrefix();
+	}
 }
