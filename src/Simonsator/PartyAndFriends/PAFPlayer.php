@@ -66,6 +66,11 @@ class PAFPlayer
 		return [];
 	}
 
+	private function getTablePrefix(): string
+	{
+		return PAFPlayerManager::getInstance()->getTablePrefix();
+	}
+
 	/**
 	 * @return PAFPlayer[] Returns an array with containing all players that have sent a friend request to the player, which have not yet been denied or accepted
 	 */
@@ -167,10 +172,5 @@ class PAFPlayer
 			"INSERT INTO {$this->getTablePrefix()}friend_assignment 
                    VALUES ('{$this->id}', '{$player->getID()}')");
 		$stmt->execute();
-	}
-
-	private function getTablePrefix(): string
-	{
-		return PAFPlayerManager::getInstance()->getTablePrefix();
 	}
 }
