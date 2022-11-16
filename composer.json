@@ -10,7 +10,8 @@
     }
   ],
   "require": {
-    "php": "^7.4|^8.0"
+    "php": "^7.4|^8.0",
+    "ext-pdo": "*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",

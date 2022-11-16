@@ -2,6 +2,9 @@
 
 namespace Simonsator\PartyAndFriends;
 
+use DateTime;
+use Exception;
+
 class PAFPlayer
 {
 	private string $uniqueID;
@@ -142,11 +145,25 @@ class PAFPlayer
 		return 0;
 	}
 
+	public function getLastOnline(): DateTime
+	{
+		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
+			"SELECT last_online 
+				   FROM {$this->getTablePrefix()}players 
+				   WHERE player_id = '{$this->id}' LIMIT 1");
+		$stmt->execute();
+		try {
+			return new DateTime($stmt->fetch()['last_online']);
+		} catch (Exception $e) {
+			return new DateTime();
+		}
+	}
+
 	/**
 	 * @param PAFPlayer $player The player which should be the new friend of this player
 	 * @return void
 	 */
-	public function addFriend(PAFPlayer $player)
+	public function addFriend(PAFPlayer $player): void
 	{
 		$stmt = PAFPlayerManager::getInstance()->getConnection()->prepare(
 			"INSERT INTO {$this->getTablePrefix()}friend_assignment 
